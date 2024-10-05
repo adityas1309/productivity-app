@@ -1,49 +1,61 @@
 /* src/styles/App.css */
 
 body {
-  background-color: #f4f4f4; /* Light gray background for a softer look */
-  font-family: 'Roboto', sans-serif; /* Using Roboto font for modern feel */
+  background-color: #f5f5f5; /* Light gray background for the entire app */
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
 }
 
 .container {
-  margin: 2rem auto; /* Centering the container */
+  margin: 2rem auto;
+  padding: 1rem;
 }
 
 h4 {
   font-weight: bold;
-  color: #333; /* Dark gray color for the title */
+  color: #333;
 }
 
 .task-item {
-  margin: 1rem 0; /* Spacing between task items */
-  padding: 1rem; /* Padding inside task items */
-  border-radius: 8px; /* Rounded corners */
+  margin: 1rem 0;
+  padding: 1.5rem;
+  border-radius: 8px;
   background-color: white; /* White background for task items */
-  transition: box-shadow 0.3s; /* Smooth shadow transition */
+  transition: all 0.3s ease-in-out;
 }
 
 .task-item:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Shadow for hover effect */
 }
 
 .button {
-  margin-left: 1rem; /* Space between button and text */
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
 }
 
 .status {
-  font-weight: bold; /* Bold status text */
-}
-
-.remaining {
-  color: #555; /* Darker gray for remaining tasks */
+  font-weight: bold;
 }
 
 .completed {
-  color: green; /* Color for completed tasks */
+  color: #4caf50; /* Green for completed tasks */
 }
 
 .pending {
-  color: red; /* Color for pending tasks */
+  color: #f44336; /* Red for pending tasks */
+}
+
+.list-item-text {
+  color: #555;
+}
+
+.remaining {
+  color: #6a6a6a; /* Gray color for remaining tasks */
+}
+
+.grid-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

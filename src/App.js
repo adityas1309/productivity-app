@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabaseClient';
 import {
@@ -53,7 +52,12 @@ const App = () => {
           <Paper key={task.id} elevation={2} className="task-item">
             <ListItem>
               <ListItemText
-                primary={`${task.date} - HTML & CSS: ${task.html_css_todo}, Core Java: ${task.core_java_todo}, JavaScript: ${task.javascript_todo}`}
+                primary={
+                  <>
+                    <strong style={{ fontWeight: 'bold' }}>{task.date}</strong>{' '}
+                    - HTML & CSS: {task.html_css_todo}, Core Java: {task.core_java_todo}, JavaScript: {task.javascript_todo}
+                  </>
+                }
                 secondary={`Remaining: HTML & CSS: ${task.html_css_rem}, Core Java: ${task.core_java_rem}, JavaScript: ${task.javascript_rem} | Status: ${task.completed ? 'Completed' : 'Pending'}`}
                 className={task.completed ? 'completed' : 'pending'}
               />
