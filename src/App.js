@@ -19,7 +19,7 @@ const App = () => {
   const markAsCompleted = async (taskId) => {
     const { error } = await supabase
       .from('tasks')
-      .update({ completed: true }) // Adjust the column name as per your table
+      .update({ completed: true }) // Updates the 'completed' column
       .eq('id', taskId);
 
     if (error) console.error(error);
