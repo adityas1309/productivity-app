@@ -1,7 +1,18 @@
 // src/App.js
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabaseClient';
-import { Container, Typography, Button, List, ListItem, ListItemText } from '@mui/material';
+import {
+  Container,
+  Typography,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Grid,
+  Divider,
+} from '@mui/material';
+import './styles/App.css'; // Import the CSS file
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -33,23 +44,34 @@ const App = () => {
   };
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
+    <Container maxWidth="lg" className="container">
+      <Typography variant="h4" gutterBottom align="center">
         Lecture Tracker
       </Typography>
       <List>
         {tasks.map((task) => (
-          <ListItem key={task.id}>
-            <ListItemText
-              primary={`${task.date} - HTML & CSS: ${task.html_css_todo}, Core Java: ${task.core_java_todo}, JavaScript: ${task.javascript_todo}`}
-              secondary={task.completed ? 'Completed' : 'Pending'}
-            />
-            {!task.completed && (
-              <Button variant="contained" onClick={() => markAsCompleted(task.id)}>
-                Mark as Completed
-              </Button>
-            )}
-          </ListItem>
+          <Paper key={task.id} elevation={2} className="task-item">
+            <ListItem>
+              <ListItemText
+                primary={`${task.date} - HTML & CSS: ${task.html_css_todo}, Core Java: ${task.core_java_todo}, JavaScript: ${task.javascript_todo}`}
+                secondary={`Remaining: HTML & CSS: ${task.html_css_rem}, Core Java: ${task.core_java_rem}, JavaScript: ${task.javascript_rem} | Status: ${task.completed ? 'Completed' : 'Pending'}`}
+                className={task.completed ? 'completed' : 'pending'}
+              />
+              <Grid container justifyContent="flex-end">
+                {!task.completed && (
+                  <Button 
+                    variant="contained" 
+                    color="primary" 
+                    onClick={() => markAsCompleted(task.id)} 
+                    className="button"
+                  >
+                    Mark as Completed
+                  </Button>
+                )}
+              </Grid>
+            </ListItem>
+            <Divider />
+          </Paper>
         ))}
       </List>
     </Container>

@@ -1,38 +1,49 @@
-.App {
-  text-align: center;
+/* src/styles/App.css */
+
+body {
+  background-color: #f4f4f4; /* Light gray background for a softer look */
+  font-family: 'Roboto', sans-serif; /* Using Roboto font for modern feel */
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container {
+  margin: 2rem auto; /* Centering the container */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h4 {
+  font-weight: bold;
+  color: #333; /* Dark gray color for the title */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.task-item {
+  margin: 1rem 0; /* Spacing between task items */
+  padding: 1rem; /* Padding inside task items */
+  border-radius: 8px; /* Rounded corners */
+  background-color: white; /* White background for task items */
+  transition: box-shadow 0.3s; /* Smooth shadow transition */
 }
 
-.App-link {
-  color: #61dafb;
+.task-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.button {
+  margin-left: 1rem; /* Space between button and text */
+}
+
+.status {
+  font-weight: bold; /* Bold status text */
+}
+
+.remaining {
+  color: #555; /* Darker gray for remaining tasks */
+}
+
+.completed {
+  color: green; /* Color for completed tasks */
+}
+
+.pending {
+  color: red; /* Color for pending tasks */
 }
