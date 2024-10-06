@@ -46,7 +46,6 @@ const App = () => {
     fetchTasks();
   }, []);
 
-
   const markAsCompleted = async (taskId) => {
     const { error } = await supabase
       .from('tasks')
@@ -135,7 +134,7 @@ const App = () => {
                                   borderRadius: '8px',
                                   display: 'inline-block',
                                   transition: 'background-color 0.3s ease',
-                                  color: '#ffffff',
+                                  color: '#ffffff', // White text for better contrast
                                 }}
                               >
                                 {task.date}
