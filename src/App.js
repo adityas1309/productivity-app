@@ -77,93 +77,109 @@ const App = () => {
     }
   };
 
+  // Group tasks by week_no
+  const groupedTasks = tasks.reduce((acc, task) => {
+    const weekNumber = task.week_no; // Use week_no from the task
+    
+    if (!acc[weekNumber]) {
+      acc[weekNumber] = [];
+    }
+    acc[weekNumber].push(task);
+    return acc;
+  }, {});
+
   return (
     <ThemeProvider theme={darkTheme}>
       <Container maxWidth="md" className="container">
         <Typography variant="h3" gutterBottom align="center" className="heading">
           Lecture Tracker
         </Typography>
-        <List>
-          {tasks
-            .sort((a, b) => {
-              if (a.completed !== b.completed) {
-                return a.completed - b.completed;
-              }
-
-              const dateA = new Date(a.date);
-              const dateB = new Date(b.date);
-              return dateA - dateB;
-            })
-            .map((task) => (
-              <Paper key={task.id} elevation={10} className="task-item">
-                <ListItem className="task-list-item">
-                  <ListItemText
-                    primary={
-                      <>
-                        <Box
-                          className="date-box"
-                          sx={{
-                            backgroundColor: task.completed ? '#00796b' : '#d32f2f',
-                            padding: '10px',
-                            borderRadius: '12px',
-                            display: 'inline-block',
-                            transition: 'background-color 0.3s ease',
-                          }}
-                        >
-                          {task.date}
-                        </Box>
-                        <Typography variant="subtitle1" className="lecture-label">
-                          Lectures to be watched:
-                        </Typography>
-                        <Typography variant="body1" style={{ whiteSpace: 'nowrap' }}>
-  HTML & CSS: {task.html_css_todo}, Core Java: {task.core_java_todo}, JavaScript: {task.javascript_todo}
-</Typography>
-
-                      </>
-                    }
-                    secondary={
-                      <Typography
-                        variant="body2"
-                        className={`status-label ${task.completed ? 'completed-status' : 'pending-status'}`}
-                      >
+        {Object.keys(groupedTasks).map((weekNumber) => (
+          <div key={weekNumber}>
+            <Typography variant="h5" gutterBottom align="center">
+              Week {weekNumber}
+            </Typography>
+            <List>
+              {groupedTasks[weekNumber]
+                .sort((a, b) => {
+                  if (a.completed !== b.completed) {
+                    return a.completed - b.completed;
+                  }
+                  const dateA = new Date(a.date);
+                  const dateB = new Date(b.date);
+                  return dateA - dateB;
+                })
+                .map((task) => (
+                  <Paper key={task.id} elevation={10} className="task-item">
+                    <ListItem className="task-list-item">
+                      <ListItemText
+                        primary={
+                          <>
+                            <Box
+                              className="date-box"
+                              sx={{
+                                backgroundColor: task.completed ? '#00796b' : '#d32f2f',
+                                padding: '10px',
+                                borderRadius: '12px',
+                                display: 'inline-block',
+                                transition: 'background-color 0.3s ease',
+                              }}
+                            >
+                              {task.date}
+                            </Box>
+                            <Typography variant="subtitle1" className="lecture-label">
+                              Lectures to be watched:
+                            </Typography>
+                            <Typography variant="body1" style={{ whiteSpace: 'nowrap' }}>
+                              HTML & CSS: {task.html_css_todo}, Core Java: {task.core_java_todo}, JavaScript: {task.javascript_todo}
+                            </Typography>
+                          </>
+                        }
+                        secondary={
+                          <Typography
+                            variant="body2"
+                            className={`status-label ${task.completed ? 'completed-status' : 'pending-status'}`}
+                          >
+                            {task.completed ? (
+                              <>
+                                <CheckCircleOutlineIcon className="status-icon" /> Completed
+                              </>
+                            ) : (
+                              <>
+                                <RadioButtonUncheckedIcon className="status-icon" /> Pending
+                              </>
+                            )}
+                          </Typography>
+                        }
+                      />
+                      <Grid container justifyContent="flex-end">
                         {task.completed ? (
-                          <>
-                            <CheckCircleOutlineIcon className="status-icon" /> Completed
-                          </>
+                          <Button
+                            variant="outlined"
+                            color="secondary"
+                            onClick={() => markAsPending(task.id)}
+                            className="action-button"
+                          >
+                            Mark as Pending
+                          </Button>
                         ) : (
-                          <>
-                            <RadioButtonUncheckedIcon className="status-icon" /> Pending
-                          </>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => markAsCompleted(task.id)}
+                            className="action-button"
+                          >
+                            Mark as Completed
+                          </Button>
                         )}
-                      </Typography>
-                    }
-                  />
-                  <Grid container justifyContent="flex-end">
-                    {task.completed ? (
-                      <Button
-                        variant="outlined"
-                        color="secondary"
-                        onClick={() => markAsPending(task.id)}
-                        className="action-button"
-                      >
-                        Mark as Pending
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => markAsCompleted(task.id)}
-                        className="action-button"
-                      >
-                        Mark as Completed
-                      </Button>
-                    )}
-                  </Grid>
-                </ListItem>
-                <Divider />
-              </Paper>
-            ))}
-        </List>
+                      </Grid>
+                    </ListItem>
+                    <Divider />
+                  </Paper>
+                ))}
+            </List>
+          </div>
+        ))}
       </Container>
     </ThemeProvider>
   );
