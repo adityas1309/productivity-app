@@ -34,7 +34,8 @@ const darkTheme = createTheme({
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
-  const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+  const [timeLeft, setTimeLeft] = useState('');
+  const today = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -44,6 +45,24 @@ const App = () => {
     };
 
     fetchTasks();
+  }, []);
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      const difference = endOfDay - now;
+
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      setTimeLeft(`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`);
+    };
+
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    return () => clearInterval(timer);
   }, []);
 
   const markAsCompleted = async (taskId) => {
@@ -78,7 +97,6 @@ const App = () => {
     }
   };
 
-  // Group tasks by week_no
   const groupedTasks = tasks.reduce((acc, task) => {
     const weekNumber = task.week_no;
 
@@ -95,9 +113,14 @@ const App = () => {
         <Typography variant="h3" gutterBottom align="center" className="heading">
           Lecture Tracker
         </Typography>
+
+        <Typography variant="h6" align="center" className="countdown" sx={{ marginBottom: '20px' }}>
+          Time Left Until Midnight: {timeLeft}
+        </Typography>
+
         {Object.keys(groupedTasks).map((weekNumber) => (
-          <div key={weekNumber}>
-            <Typography variant="h5" gutterBottom align="center">
+          <div key={weekNumber} style={{ marginBottom: '40px' }}>
+            <Typography variant="h5" gutterBottom align="center" sx={{ marginBottom: '20px' }}>
               Week {weekNumber}
             </Typography>
             <List>
@@ -117,12 +140,13 @@ const App = () => {
                         variant="h5"
                         align="center"
                         className="present-day-label"
+                        sx={{ marginBottom: '15px' }}
                       >
                         Present Day
                       </Typography>
                     )}
-                    <Paper elevation={10} className="task-item" sx={{ padding: '16px', borderRadius: '12px' }}>
-                      <ListItem className="task-list-item">
+                    <Paper elevation={3} className="task-item" sx={{ padding: '16px', borderRadius: '12px', marginBottom: '15px' }}>
+                      <ListItem className="task-list-item" sx={{ padding: '0' }}>
                         <ListItemText
                           primary={
                             <>
@@ -130,11 +154,12 @@ const App = () => {
                                 className="date-box"
                                 sx={{
                                   backgroundColor: task.completed ? '#00796b' : '#d32f2f',
-                                  padding: '8px',
+                                  padding: '10px',
                                   borderRadius: '8px',
                                   display: 'inline-block',
                                   transition: 'background-color 0.3s ease',
-                                  color: '#ffffff', // White text for better contrast
+                                  color: '#ffffff',
+                                  marginBottom: '10px',
                                 }}
                               >
                                 {task.date}
@@ -153,37 +178,31 @@ const App = () => {
                               className={`status-label ${task.completed ? 'completed-status' : 'pending-status'}`}
                             >
                               {task.completed ? (
-                                <>
-                                  <CheckCircleOutlineIcon className="status-icon" /> Completed
-                                </>
+                                <Box display="flex" alignItems="center">
+                                  <CheckCircleOutlineIcon className="status-icon" /> 
+                                  <span style={{ marginLeft: '8px' }}>Completed</span>
+                                </Box>
                               ) : (
-                                <>
-                                  <RadioButtonUncheckedIcon className="status-icon" /> Pending
-                                </>
+                                <Box display="flex" alignItems="center">
+                                  <RadioButtonUncheckedIcon className="status-icon" /> 
+                                  <span style={{ marginLeft: '8px' }}>Pending</span>
+                                </Box>
                               )}
                             </Typography>
                           }
+                          
+                          
                         />
                         <Grid container justifyContent="flex-end">
-                          {task.completed ? (
-                            <Button
-                              variant="outlined"
-                              color="secondary"
-                              onClick={() => markAsPending(task.id)}
-                              className="action-button"
-                            >
-                              Mark as Pending
-                            </Button>
-                          ) : (
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => markAsCompleted(task.id)}
-                              className="action-button"
-                            >
-                              Mark as Completed
-                            </Button>
-                          )}
+                          <Button
+                            variant={task.completed ? "outlined" : "contained"}
+                            color={task.completed ? "secondary" : "primary"}
+                            onClick={() => task.completed ? markAsPending(task.id) : markAsCompleted(task.id)}
+                            className="action-button"
+                            sx={{ marginLeft: '10px' }}
+                          >
+                            {task.completed ? 'Mark as Pending' : 'Mark as Completed'}
+                          </Button>
                         </Grid>
                       </ListItem>
                       <Divider sx={{ margin: '8px 0' }} />
