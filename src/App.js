@@ -29,24 +29,6 @@ const darkTheme = createTheme({
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    h3: {
-      fontSize: '2.5rem',
-      '@media (max-width:600px)': {
-        fontSize: '2rem',
-      },
-    },
-    h5: {
-      fontSize: '1.5rem',
-      '@media (max-width:600px)': {
-        fontSize: '1.2rem',
-      },
-    },
-    body1: {
-      fontSize: '1rem',
-      '@media (max-width:600px)': {
-        fontSize: '0.875rem',
-      },
-    },
   },
 });
 
@@ -65,6 +47,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    // Request notification permission
     if ('Notification' in window) {
       Notification.requestPermission();
     }
@@ -82,6 +65,7 @@ const App = () => {
       }
     };
 
+    // Check for pending tasks every 45 minutes
     const checkPendingTasks = () => {
       const todayTasks = tasks.filter(task => task.date === today);
       const hasPendingTasks = todayTasks.some(task => !task.completed);
@@ -89,15 +73,17 @@ const App = () => {
       if (hasPendingTasks) {
         notifyIfPendingTasks();
       } else {
-        clearInterval(interval);
+        clearInterval(interval); // Clear interval if all tasks are completed
       }
     };
 
+    // Start the interval
     interval = setInterval(checkPendingTasks, 45 * 60 * 1000);
     
+    // Initial check to notify right away if necessary
     checkPendingTasks();
 
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Clean up interval on component unmount
   }, [tasks, today]);
 
   const markAsCompleted = async (taskId) => {
@@ -132,9 +118,10 @@ const App = () => {
     }
   };
 
+  // Group tasks by week_no
   const groupedTasks = tasks.reduce((acc, task) => {
-    const weekNumber = task.week_no; // Use week_no from the task
-    
+    const weekNumber = task.week_no;
+
     if (!acc[weekNumber]) {
       acc[weekNumber] = [];
     }
@@ -187,7 +174,7 @@ const App = () => {
                                   borderRadius: '8px',
                                   display: 'inline-block',
                                   transition: 'background-color 0.3s ease',
-                                  color: '#ffffff', // White text for better contrast
+                                  color: '#ffffff',
                                 }}
                               >
                                 {task.date}
