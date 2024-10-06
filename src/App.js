@@ -52,7 +52,7 @@ const darkTheme = createTheme({
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -133,8 +133,8 @@ const App = () => {
   };
 
   const groupedTasks = tasks.reduce((acc, task) => {
-    const weekNumber = task.week_no;
-
+    const weekNumber = task.week_no; // Use week_no from the task
+    
     if (!acc[weekNumber]) {
       acc[weekNumber] = [];
     }
@@ -187,7 +187,7 @@ const App = () => {
                                   borderRadius: '8px',
                                   display: 'inline-block',
                                   transition: 'background-color 0.3s ease',
-                                  color: '#ffffff',
+                                  color: '#ffffff', // White text for better contrast
                                 }}
                               >
                                 {task.date}
