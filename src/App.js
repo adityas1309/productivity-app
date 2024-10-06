@@ -46,6 +46,46 @@ const App = () => {
     fetchTasks();
   }, []);
 
+  useEffect(() => {
+    // Request notification permission
+    if ('Notification' in window) {
+      Notification.requestPermission();
+    }
+
+    let interval;
+    
+    const notifyIfPendingTasks = () => {
+      const todayTasks = tasks.filter(task => task.date === today);
+      const hasPendingTasks = todayTasks.some(task => !task.completed);
+
+      if (hasPendingTasks) {
+        new Notification('Task Reminder', {
+          body: `You have incomplete tasks for today. Don't forget to complete them!`,
+        });
+      }
+    };
+
+    // Check for pending tasks every 45 minutes
+    const checkPendingTasks = () => {
+      const todayTasks = tasks.filter(task => task.date === today);
+      const hasPendingTasks = todayTasks.some(task => !task.completed);
+
+      if (hasPendingTasks) {
+        notifyIfPendingTasks();
+      } else {
+        clearInterval(interval); // Clear interval if all tasks are completed
+      }
+    };
+
+    // Start the interval
+    interval = setInterval(checkPendingTasks, 45 * 60 * 1000);
+    
+    // Initial check to notify right away if necessary
+    checkPendingTasks();
+
+    return () => clearInterval(interval); // Clean up interval on component unmount
+  }, [tasks, today]);
+
   const markAsCompleted = async (taskId) => {
     const { error } = await supabase
       .from('tasks')
@@ -134,7 +174,7 @@ const App = () => {
                                   borderRadius: '8px',
                                   display: 'inline-block',
                                   transition: 'background-color 0.3s ease',
-                                  color: '#ffffff', // White text for better contrast
+                                  color: '#ffffff',
                                 }}
                               >
                                 {task.date}
