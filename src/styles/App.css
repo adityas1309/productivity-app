@@ -9,6 +9,22 @@ body {
   padding: 20px;
 }
 
+.present-day {
+  border: 2px solid #4caf50; /* Green border */
+  background-color: rgba(76, 175, 80, 0.1); /* Light green background */
+  padding: 15px; /* Increased padding for better spacing */
+  margin-bottom: 20px; /* Increased margin */
+  border-radius: 10px; /* Consistent rounded corners */
+}
+
+.present-day-label {
+  font-weight: bold;
+  font-size: 1.75rem; /* Slightly larger for emphasis */
+  color: #4caf50; /* Green color for the label */
+  margin-bottom: 12px; /* More space below the label */
+  text-align: center; /* Center the label */
+}
+
 .heading {
   color: #ffffff; 
   font-size: 2.5em; 
@@ -16,20 +32,17 @@ body {
   letter-spacing: 1px; 
   text-align: center; 
   margin: 20px 0;
-  padding: 10px;
+  padding: 15px; /* Adjusted padding */
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px; 
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
 }
 
-
-
-
 .task-item {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem; /* Increased bottom margin */
   background-color: rgba(255, 255, 255, 0.1); 
   border-radius: 10px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smoother transition */
 }
 
 .task-item:hover {
@@ -38,7 +51,7 @@ body {
 }
 
 .task-list-item {
-  padding: 16px;
+  padding: 20px; /* Increased padding for better touch targets */
 }
 
 .date-box {
@@ -46,11 +59,14 @@ body {
   font-weight: bold;
   text-align: center;
   border: 1px solid #00bcd4; 
+  border-radius: 8px; /* Rounded corners for the date box */
+  padding: 8px; /* Added padding */
 }
 
 .status-label {
   display: flex;
   align-items: center;
+  margin-top: 10px; /* Space between date and status */
 }
 
 .completed-status {
@@ -67,10 +83,13 @@ body {
 
 .action-button {
   margin-left: 10px;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 8px 16px; /* Increased padding for buttons */
+  border-radius: 5px; /* Rounded corners for buttons */
 }
 
 .action-button:hover {
   background-color: #00bcd4; 
   color: #121212; 
+  transform: scale(1.05); /* Slightly enlarge button on hover */
 }

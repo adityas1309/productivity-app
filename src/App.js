@@ -34,6 +34,7 @@ const darkTheme = createTheme({
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
+  const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -79,8 +80,8 @@ const App = () => {
 
   // Group tasks by week_no
   const groupedTasks = tasks.reduce((acc, task) => {
-    const weekNumber = task.week_no; // Use week_no from the task
-    
+    const weekNumber = task.week_no;
+
     if (!acc[weekNumber]) {
       acc[weekNumber] = [];
     }
@@ -110,72 +111,84 @@ const App = () => {
                   return dateA - dateB;
                 })
                 .map((task) => (
-                  <Paper key={task.id} elevation={10} className="task-item">
-                    <ListItem className="task-list-item">
-                      <ListItemText
-                        primary={
-                          <>
-                            <Box
-                              className="date-box"
-                              sx={{
-                                backgroundColor: task.completed ? '#00796b' : '#d32f2f',
-                                padding: '10px',
-                                borderRadius: '12px',
-                                display: 'inline-block',
-                                transition: 'background-color 0.3s ease',
-                              }}
+                  <div key={task.id} className={task.date === today ? 'present-day' : ''}>
+                    {task.date === today && (
+                      <Typography
+                        variant="h5"
+                        align="center"
+                        className="present-day-label"
+                      >
+                        Present Day
+                      </Typography>
+                    )}
+                    <Paper elevation={10} className="task-item" sx={{ padding: '16px', borderRadius: '12px' }}>
+                      <ListItem className="task-list-item">
+                        <ListItemText
+                          primary={
+                            <>
+                              <Box
+                                className="date-box"
+                                sx={{
+                                  backgroundColor: task.completed ? '#00796b' : '#d32f2f',
+                                  padding: '8px',
+                                  borderRadius: '8px',
+                                  display: 'inline-block',
+                                  transition: 'background-color 0.3s ease',
+                                  color: '#ffffff', // White text for better contrast
+                                }}
+                              >
+                                {task.date}
+                              </Box>
+                              <Typography variant="subtitle1" className="lecture-label" sx={{ marginTop: '8px' }}>
+                                Lectures to be watched:
+                              </Typography>
+                              <Typography variant="body1" style={{ whiteSpace: 'nowrap' }}>
+                                HTML & CSS: {task.html_css_todo}, Core Java: {task.core_java_todo}, JavaScript: {task.javascript_todo}
+                              </Typography>
+                            </>
+                          }
+                          secondary={
+                            <Typography
+                              variant="body2"
+                              className={`status-label ${task.completed ? 'completed-status' : 'pending-status'}`}
                             >
-                              {task.date}
-                            </Box>
-                            <Typography variant="subtitle1" className="lecture-label">
-                              Lectures to be watched:
+                              {task.completed ? (
+                                <>
+                                  <CheckCircleOutlineIcon className="status-icon" /> Completed
+                                </>
+                              ) : (
+                                <>
+                                  <RadioButtonUncheckedIcon className="status-icon" /> Pending
+                                </>
+                              )}
                             </Typography>
-                            <Typography variant="body1" style={{ whiteSpace: 'nowrap' }}>
-                              HTML & CSS: {task.html_css_todo}, Core Java: {task.core_java_todo}, JavaScript: {task.javascript_todo}
-                            </Typography>
-                          </>
-                        }
-                        secondary={
-                          <Typography
-                            variant="body2"
-                            className={`status-label ${task.completed ? 'completed-status' : 'pending-status'}`}
-                          >
-                            {task.completed ? (
-                              <>
-                                <CheckCircleOutlineIcon className="status-icon" /> Completed
-                              </>
-                            ) : (
-                              <>
-                                <RadioButtonUncheckedIcon className="status-icon" /> Pending
-                              </>
-                            )}
-                          </Typography>
-                        }
-                      />
-                      <Grid container justifyContent="flex-end">
-                        {task.completed ? (
-                          <Button
-                            variant="outlined"
-                            color="secondary"
-                            onClick={() => markAsPending(task.id)}
-                            className="action-button"
-                          >
-                            Mark as Pending
-                          </Button>
-                        ) : (
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => markAsCompleted(task.id)}
-                            className="action-button"
-                          >
-                            Mark as Completed
-                          </Button>
-                        )}
-                      </Grid>
-                    </ListItem>
-                    <Divider />
-                  </Paper>
+                          }
+                        />
+                        <Grid container justifyContent="flex-end">
+                          {task.completed ? (
+                            <Button
+                              variant="outlined"
+                              color="secondary"
+                              onClick={() => markAsPending(task.id)}
+                              className="action-button"
+                            >
+                              Mark as Pending
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => markAsCompleted(task.id)}
+                              className="action-button"
+                            >
+                              Mark as Completed
+                            </Button>
+                          )}
+                        </Grid>
+                      </ListItem>
+                      <Divider sx={{ margin: '8px 0' }} />
+                    </Paper>
+                  </div>
                 ))}
             </List>
           </div>
