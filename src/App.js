@@ -104,12 +104,6 @@ const App = () => {
                   }
                   secondary={
                     <>
-                      <Typography variant="subtitle1" className="lecture-label">
-                        Remaining Lectures:
-                      </Typography>
-                      <Typography variant="body2">
-                        HTML & CSS: {task.html_css_rem}, Core Java: {task.core_java_rem}, JavaScript: {task.javascript_rem}
-                      </Typography>
                       <Typography
                         variant="body2"
                         className={`status-label ${task.completed ? 'completed-status' : 'pending-status'}`}
