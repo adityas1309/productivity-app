@@ -1,66 +1,76 @@
+body {
+  background-color: #121212;
+  color: #ffffff; 
+  font-family: 'Roboto', sans-serif; 
+}
+
 .container {
-  margin-top: 30px;
+  margin-top: 2rem;
+  padding: 20px;
 }
 
 .heading {
-  font-weight: 600;
-  color: #37474f;
-  margin-bottom: 40px;
+  color: #ff4081; 
+  font-size: 2.5em; 
+  font-weight: bold; 
+  letter-spacing: 1px; 
+  text-align: center; 
+  margin: 20px 0;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
 }
 
+
+
+
 .task-item {
-  margin-bottom: 20px;
-  padding: 20px;
-  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  background-color: rgba(255, 255, 255, 0.1); 
   border-radius: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .task-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px); 
+  box-shadow: 0 10px 20px rgba(0, 188, 212, 0.5); 
 }
 
 .task-list-item {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  padding: 16px;
 }
 
 .date-box {
+  color: #fff;
   font-weight: bold;
-  color: #424242;
-}
-
-.lecture-label {
-  font-weight: bold;
-  margin-top: 10px;
+  text-align: center;
+  border: 1px solid #00bcd4; 
 }
 
 .status-label {
-  font-weight: bold;
-  margin-top: 15px;
+  display: flex;
+  align-items: center;
 }
 
 .completed-status {
-  color: #388e3c;
+  color: #76ff03; 
 }
 
 .pending-status {
-  color: #d32f2f;
+  color: #ff5252; 
 }
 
 .status-icon {
-  vertical-align: middle;
   margin-right: 5px;
 }
 
 .action-button {
   margin-left: 10px;
-  border-radius: 20px;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .action-button:hover {
-  background-color: #4caf50;
-  color: white;
+  background-color: #00bcd4; 
+  color: #121212; 
 }
